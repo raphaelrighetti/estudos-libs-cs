@@ -1,0 +1,157 @@
+============CAMINHOS DE ARQUIVOS============
+
+O C# irá sempre olhar dentro da pasta do arquivo executável de dabug quando executamos um projeto C# dentro do VisualStudio, ou seja, dentro da pasta "bin\Degub\net6.0".
+
+Se temos um arquivo dentro dessa pasta, nem precisamos passar o caminho todo até ele, basta colocarmos o nome do arquivo como path para acessá-lo, que o C# já irá encontrá-lo dentro dessa pasta para nós.
+
+============FileStream============
+
+É uma classe que nos permite criar um fluxo de dados em um arquivo (read & write).
+
+============Read(<buffer>, <offset>, <count>)============
+
+É o método que utilizamos para ler o conteúdo de um fluxo de dados, como um FileStream, por exemplo.
+
+Recebe um "byte[]" como primeiro parâmetro, que é um array de bytes que será usado como buffer, para ir armazenando os dados recebidos do fluxo que serão usados. Normalmente o buffer terá 1024 posições, pois esse é o número de bytes que existem em 1KB.
+
+Como segundo parâmetro, recebe o offset, que representa de qual índice do buffer a leitura deve começar.
+
+Como terceiro parâmetro, recebe quantos bytes do buffer ele irá utilizar, que será o "buffer.Length" na maioria dos casos.
+
+O método "Read()" retorna um número inteiro que representa o número de bytes que foram lidos e inseridos no buffer, sendo 0 quando não há mais nenhum byte a ser lido. Podemos utilizar isso para fazer uma leitura dinâmica por todo o nosso arquivo, sem precisar ter um buffer do tamanho exato do arquivo com qual estamos trabalhando.
+
+Sempre que executamos o método "Read()" ele irá começar a leitura a partir do último ponto que ele parou na última leitura, por isso conseguimos utilizá-lo em um while para ler o arquivo todo com um buffer menor do que o tamanho do arquivo.
+
+============IDisposable============
+
+É a interface que contém o método "Dispose()", que é o responsável por descartar a referência que não será mais utilizada. Fluxos de dados e classes que fazem requisições para lugares externos normalmente implementam essa interface.
+
+O método "Dispose()" chama o método "Close()", que é o método que irá encerrar completamente a referência em questão.
+
+Podemos garantir que nossa referência "IDisposable" será descartada utilizando ela dentro de um "using ()". Podemos fazer a mesma coisa manualmente usando um "try / catch / finally".
+
+O "using ()" também verifica se a referência "IDisposable" que estamos abrindo não é nula com um try / catch elaborado especificamente para isso, por isso não precisamos fazer esse tratamento quando usamos um bloco de código "using ()".
+
+============ENUM============
+
+Existem enums no C# e funcionam da mesma maneira que no Java.
+
+============UTF8Encoding============
+
+É uma classe que nos permite trabalhar com encoding para UTF-8.
+
+Possui métodos como o "GetString(<byte[]>)", que nos retorna uma string no respeitando a tabela unicode a partir de um array de bytes (ou buffer), usando o encoder UTF-8.
+
+O método "GetString()" também aceita mais dois argumentos além do buffer, que são o índice no qual ele vai iniciar a conversão no buffer e a quantidade de bytes que ele vai ler do buffer. Usando esses dois argumentos, não precisamos limpar o buffer a cada "Read()" feito nele, pois podemos passar que ele só deve converter os bytes em string até o número de bytes que foram lidos pelo método "Read()", que fica acessível no retorno do método. Assim, mesmo tendo bytes repetidos mais ao final do buffer, eles não serão convertidos e não teremos informações repetidas no nosso texto.
+
+============partial class============
+
+Uma "partial class" é uma classe que é dividida em mais de um arquivo e junta na compilação, funcionando como se a classe estivesse inteira em um arquivo só.
+
+Para termos uma partial class, basta usar a palavra chave "partial" em todas as definições daquela mesma classe.
+
+Isso é útil em situações em que estamos lidando com classes geradas automaticamente, onde coisas podem mudar e podemos perder o nosso trabalho caso a classe seja gerada novamente. Nesse caso, podemos ter uma classe parcial e escrever nosso código fora da classe gerada automaticamente, de forma que não perderíamos o nosso trabalho caso a classe fosse gerada novamente com alguma alteração.
+
+Se uma classe está ficando muito grande e pensamos em usar um partial apenas para deixá-la mais legível, isso é sinal que a nossa classe está com mais responsabilidades do que deveria, o que não é bom. Em casos assim devemos criar outras classes para dividir as responsabilidades.
+
+============StreamReader============
+
+É uma classe que nos ajuda a fazer a leitura de streams de maneira mais fácil e de alto nível.
+
+Recebe um Stream em sua construção e possui métodos e propriedades que auxiliam na manipulação do nosso fluxo de dados.
+
+Exemplos:
+
+    "ReadLine()":
+        Lê uma linha do nosso Stream. Pula para a próxima linha a cada execução do método.
+
+    "ReadToEnd()":
+        Carrega o nosso Stream inteiro sem um buffer e mostra tudo que tem nele decodificando os bytes (pode ser uma má ideia).
+
+    "Read()":
+        Lê um byte apenas do nosso Stream.
+
+    "EndOfStream":
+        Retorna um bool informando se o Stream está no final ou não. Útil para ser usado em um loop para percorrer o Stream todo sem carregá-lo completo de uma vez.
+
+Usando o StreamReader temos muito mais facilidade para trabalhar com fluxos de dados.
+
+É importante saber que quando utilizamos um StreamReader em um bloco "using ()", ele fecha também a Stream utilizada para criar o StreamReader, mas é sempre uma boa prática utilizar o bloco "using ()" tanto para a Stream quanto para o StreamReader. Se fechamos somente a Stream e não o StreamReader, o StreamReader ainda continuará aberto, mesmo que não consigamos usá-lo.
+
+============CultureInfo============
+
+É a classe que armazena as peculiaridades de formatação de cada cultura, que por padrão é a cultura do país em que você está (pt-BR no caso do Brasil).
+
+Essa classe implementa a interface "IFormatProvider", que é uma interface utilizada para fornecer um padrão de formatação para conversão ou criação de objetos, que é muito útil para converter strings em números, datas em strings e etc, sempre respeitando a formatação certa da cultura.
+
+Podemos passar um CultureInfo da cultura que quisermos, como "en-US", por exemplo, para os métodos "Parse" dos números no C#, desta forma fazendo com que o ponto flutuante de um double em uma string seja o caractere "." em vez de ",", que é o padrão que temos no CultureInfo pt-BR.
+
+Podemos utilizar o CultureInfo em métodos "ToString" de números também.
+
+============ESCREVENDO ARQUIVOS============
+
+Escrever arquivos no C# é bem parecido com o processo de lê-los.
+
+Da mesma forma que utilizamos um FileStream para fazer a leitura, utilizamos um FileStream para fazer a escrita também.
+
+Podemos utilizar o método "Write(<byte[]>, <offset>, <count>)" para escrever no nosso arquivo. Devemos ter em mente que só poderemos escrever em um arquivo conteúdo em bytes, da mesma forma que temos no buffer quando lemos um arquivo.
+
+Podemos transformar uma string em um array de bytes com a nossa classe de encoding, dessa forma conseguindo ter o conteúdo no formato certo para passarmos ao método "Write()" do FileStream.
+
+É importante saber que se queremos sobrescrever todo o conteúdo de um arquivo, não precisamos usar métodos do FileStream para isso. Para sobrescrever um arquivo já existente, basta utilizarmos o FileMode.Create, que cria um arquivo novo ou sobrescreve o arquivo se ele já existir.,
+
+============StreamWriter============
+
+É uma classe que facilita a escritura em streams.
+
+Também possui o método "Write()", mas não precisamos converter o conteúdo para um array de bytes para conseguirmos escrever, podemos passar uma string diretamente, além de outros tipos suportados.
+
+Também possui outros métodos como o "WriteLine()" e etc.
+
+É importante saber que quando utilizamos os métodos de escrita do StreamWriter, não estamos escrevendo diretamente na nossa Stream, e sim em um buffer que armazena as informações que devem ser escritas e será utilizado para realmente fazer a escrita quando a Stream for fechada.
+
+Nós podemos utilizar o método "Flush()" para limpar esse buffer e realizar realmente a escrita na Stream no momento que quisermos, sem ter que esperar o fechamento da Stream.
+
+============ARQUIVOS BINÁRIOS============
+
+Podemos trabalhar com arquivos binários no C#, fazendo operações tanto de leitura quanto de escrita. Temos as classes "BinaryReader" e "BinaryWriter" para isso.
+
+É importante saber que, quando se trata de arquivos binários, não temos métodos como o "WriteLine()" e nem "ReadLine()", e os valores binários guardados serão guardados com a informação binária do tipo específico que inserimos. O conteúdo binário muda o número de bytes para cada tipo, como os números inteiros que são representados por 4 bytes e outros tipos que podem ser representados por mais ou menos bytes do que isso.
+
+Para ler um arquivo binário com o "BinaryReader", apenas temos que utilizar os métodos "Read" do tipo correto que temos no nosso arquivo binário. Importante saber que a cada vez que utilizamos um método "Read" do BinaryReader, o item que está sendo lido irá mudar para o próximo que está guardado no arquivo, independentemente do tipo do "Read" que estivermos utilizando.
+
+============Console.OpenStandardInput()============
+
+Esse é um método que nos permite acessar o input padrão do nosso console como uma Stream.
+
+Esse input padrão é pego quando damos enter no nosso console, sendo o que a gente escreveu antes de dar enter o conteúdo desse input.
+
+Os métodos do Console que recebem inputs do usuário utilizam um fluxo de dados dessa forma por baixo dos panos.
+
+============File============
+
+É uma classe estática que nos auxilia a trabalhar com leitura e escrita em arquivos, possuindo métodos como "ReadAllLines(<caminho>)", "ReadAllBytes(<caminho>)" e "WriteAllText(<caminho>)" que fazem exatamente as coisas que os nomes deles dizem de maneira muito mais simples do que quando estamos trabalhando com um FileStream ou algo do tipo.
+
+Apesar de ter esses métodos que facilitam bastante coisa, é importante ter em mente que não funcionará da melhor forma quando estivermos trabalhando com arquivos maiores e etc, pois esses métodos não utilizam buffers limitados e coisas do tipo, o que pode fazer com que muito memória seja utilizada.
+
+Tirando essa parte ruim que apresentei acima, é uma classe muito útil quando estamos trabalhando com arquivos pequenos e com ações mais básicas neles.
+
+============csproj============
+
+É o arquivo que irá definir as dependências, o tipo de build e várias outras configurações do nosso projeto.
+
+Podemos acessá-lo no VisualStudio a partir do "Gerenciador de Soluções". O arquivo é o projeto raiz em si que temos no gerenciador.
+
+É um arquivo que parece um XML e que podemos modificar de maneira mais intuitiva utilizando o VisualStudio, como quando queremos adicionar uma referência a uma biblioteca nesse arquivo.
+
+É importante saber que diferentes tipos de projetos C# terão diferentes arquivos ".csproj" e que isso definirá como aquele projeto ou biblioteca deve se comportar. Quando estamos tratando de uma biblioteca, o mais padrão é que utilizemos o padrão "Biblioteca de Classes", que não nos fornece uma classe "Program" de entrada do nosso programa e nem gera um arquivo executável para rodarmos aquele projeto. Tudo isso é definido no arquivo ".csproj".
+
+============NuGet============
+
+É o gerenciador de pacotes do C# / .NET.
+
+Ele possui um repositório com diversas bibliotecas disponíveis, onde também conseguimos inserir as nossas próprias bibliotecas.
+
+Podemos adicionar bibliotecas ao nosso projeto utilizando tanto a interface do NuGet do VisualStudio, quanto o CLI.
+
+Ele baixa a biblioteca e atribui uma referência à ela no nosso csproj.
