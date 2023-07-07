@@ -155,3 +155,17 @@ Ele possui um repositório com diversas bibliotecas disponíveis, onde também c
 Podemos adicionar bibliotecas ao nosso projeto utilizando tanto a interface do NuGet do VisualStudio, quanto o CLI.
 
 Ele baixa a biblioteca e atribui uma referência à ela no nosso csproj.
+
+============internal============
+
+Já vi sobre o modificador de visibilidade internal, mas quando se trata de bibliotecas que ele realmente começa a fazer sentido.
+
+Usamos o internal para garantir que uma classe ou membro de uma classe só seja utilizada realmente dentro da biblioteca, DLL ou executável onde ela foi criada, o que é muito útil para encapsular a nossa biblioteca e não dar acesso a coisas que não são necessárias.
+
+============protected internal============
+
+Usamos esses dois modificadores juntos quando temos algum membro internal em nossa classe, mas que precisa ficar disponível para suas classes filhas na hierarquia, de forma que, mesmo sendo internal, ainda conseguimos acessá-lo de fora da biblioteca quando estamos na classe que herda da classe que contém esse membro.
+
+É meio confuso, mas é só lembrar que podemos usar isso quando queremos ter um membro internal na nossa classe que será herdada e que também poderá ser herdada de fora da biblioteca, assim evitando erros e garantindo que a classe filha terá acesso ao membro mesmo ele sendo internal.
+
+Também temos o private protected, que nos permite ter um membro que só pode ser acessado por classes da hierarquia que estão no mesmo assembly.
