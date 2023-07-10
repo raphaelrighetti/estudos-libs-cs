@@ -1,10 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>ByteBank Modelos</Title>
+    <Description>Pacote que contém as principais classes dos modelos do ByteBank, como Cliente e ContaCorrente</Description>
+    <Copyright>Raphael Righetti</Copyright>
   </PropertyGroup>
 
 </Project>

@@ -204,3 +204,13 @@ Colocamos o sumário que queremos acima do recurso que queremos que ele represen
 Importante saber que esses comentários serão ignorados pelo nosso programa na compilação, mas serão utilizados para gerar um arquivo XML que ficará junto com a nossa DLL, lá contendo toda a documentação que fizemos nos comentários especiais.
 
 Para o compilador gerar realmente esse arquivo da documentação, precisamos marcar a opção de gerar a documentação na aba "Saída" das propriedades do nosso projeto, que é o equivalente a adicionar a propriedade "GenerateDocumentationFile" no nosso arquivo ".csproj".
+
+============nupkg============
+
+É o formato dos arquivos que armazenam pacotes do NuGet. É nele que estão inseridas as DLLs necessárias, assim como os arquivos de documentação e tudo mais.
+
+É importante saber que podemos ter um servidor local com pacotes do NuGet e fazer o uso do NuGet usando esse servidor como repositório ao invés do nuget.org.
+
+Para gerarmos um arquivo ".nupkg" do nosso projeto, basta ativarmos a opção "GeneratePackageOnBuild" no nosso projeto, o que podemos fazer no próprio VisualStudio nas opções de "Pacote" nas propriedades do projeto. É nesse local onde definimos uma série de informações sobre o pacote, como licença, README, nome, descrição e etc.
+
+Quando publicamos um pacote no NuGet, podemos encontrá-lo facilmente no "Gerenciador de pacotes do NuGet" no nosso VisualStudio (tem que ser público).
