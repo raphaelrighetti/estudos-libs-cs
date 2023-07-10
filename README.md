@@ -21,3 +21,11 @@ Aprendi a adicionar referências à bibliotecas que possuimos na nossa máquina,
 Nesta aula pude entender realmente a utilidade do modificador de visibilidade "internal", que faz com que uma classe ou membro estejam disponíveis apenas na biblioteca ou assembly onde foram declarados.
 
 Além disso, aprendi sobre o modificador "protected internal", que faz com que um membro internal de uma classe possa ser acessado por outras classes em sua hierarquia, mesmo que elas estejam fora do assembly onde a classe superior foi declarada.
+
+### Aula 3
+
+#### DLLs e documentação da biblioteca
+
+Nesta aula aprendi o que é uma DLL, as vantagens de sua utilização e como podemos gerar uma do nosso projeto para distribuí-lo mais facilmente para outras pessoas.
+
+Além disso, aprendi a fazer as documentações que acompanham uma DLL utilizando os sumários, assim como mudar as propriedades do nosso projeto para que ele gere o arquivo XML da documentação de maneira correta.

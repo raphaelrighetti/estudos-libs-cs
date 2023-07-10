@@ -169,3 +169,38 @@ Usamos esses dois modificadores juntos quando temos algum membro internal em nos
 É meio confuso, mas é só lembrar que podemos usar isso quando queremos ter um membro internal na nossa classe que será herdada e que também poderá ser herdada de fora da biblioteca, assim evitando erros e garantindo que a classe filha terá acesso ao membro mesmo ele sendo internal.
 
 Também temos o private protected, que nos permite ter um membro que só pode ser acessado por classes da hierarquia que estão no mesmo assembly.
+
+============DLL (Dynamic-Link Library)============
+
+DLLs são componentes que podem conter funcionalidades e ficam encapsulados em um único arquivo, funcionando de forma similar aos arquivos ".jar" do Java.
+
+Podemos extrair toda a nossa biblioteca em um DLL e distribuí-la de maneira muito mais fácil para ser usada em outros projetos, sem termos que ter todo o projeto baixado na máquina.
+
+Uma DLL também facilita a implantação dos nossos sistemas, uma vez que podemos inserir uma DLL na instalação do nosso programa para ele utilizar funcionalidades dela.
+
+O VisualStudio sempre compila o nosso programa em uma DLL que fica na pasta de Debug do projeto, mas também é possível compilar fora dessa pasta de Debug.
+
+Podemos adicionar uma referência a uma DLL no nosso projeto pela própria interface do VisualStudio, utilizando a opção "Adicionar COM...".
+
+============DOCUMENTANDO BIBLIOTECAS============
+
+Podemos documentar nossas bibliotecas de forma que essa documentação fique disponível para referência na própria IDE de quem possuir a DLL.
+
+Para fazer esse tipo de documentação, utilizamos os Summaries, que são comentários mais poderosos que consistem em três barras (///) ao invés de duas (//).
+
+Sintaxe:
+
+    /// <summary>
+    /// Aqui vai o conteúdo que desejamos
+    /// </summary>
+    /// <param name="parametro">
+    /// Aqui descrevemos o parâmetro e para que ele serve
+    /// </param>
+    /// <returns>Aqui especificamos o retorno do recurso</returns>
+    public string GetMensagem(string parametro) { }
+
+Colocamos o sumário que queremos acima do recurso que queremos que ele represente. 
+
+Importante saber que esses comentários serão ignorados pelo nosso programa na compilação, mas serão utilizados para gerar um arquivo XML que ficará junto com a nossa DLL, lá contendo toda a documentação que fizemos nos comentários especiais.
+
+Para o compilador gerar realmente esse arquivo da documentação, precisamos marcar a opção de gerar a documentação na aba "Saída" das propriedades do nosso projeto, que é o equivalente a adicionar a propriedade "GenerateDocumentationFile" no nosso arquivo ".csproj".
